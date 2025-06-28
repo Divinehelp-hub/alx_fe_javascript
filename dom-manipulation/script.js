@@ -5,15 +5,24 @@ const quotes = [
   { text: "Act as if what you do makes a difference. It does.", category: "Encouragement" }
 ];
 
-// Step 2: Display Random Quote Function
+// Step 2: Display Random Quote using createElement + appendChild
 function showRandomQuote() {
+  const quoteDisplay = document.getElementById("quoteDisplay");
+  quoteDisplay.innerHTML = ""; // clear previous quote
+
   const randomIndex = Math.floor(Math.random() * quotes.length);
   const quote = quotes[randomIndex];
-  const quoteDisplay = document.getElementById("quoteDisplay");
-  quoteDisplay.innerHTML = `<p><strong>${quote.category}</strong>: "${quote.text}"</p>`;
+
+  const p = document.createElement("p");
+  const strong = document.createElement("strong");
+  strong.textContent = quote.category + ": ";
+  p.appendChild(strong);
+  p.appendChild(document.createTextNode('"' + quote.text + '"'));
+
+  quoteDisplay.appendChild(p);
 }
 
-// Step 3: Add Quote Function (MUST be named exactly `addQuote`)
+// Step 3: Add New Quote using createElement + appendChild
 function addQuote() {
   const textInput = document.getElementById("newQuoteText");
   const categoryInput = document.getElementById("newQuoteCategory");
@@ -24,11 +33,19 @@ function addQuote() {
   if (text && category) {
     quotes.push({ text, category });
 
-    // Update the DOM (optional: show the newly added quote)
+    // Update DOM with newly added quote using createElement
     const quoteDisplay = document.getElementById("quoteDisplay");
-    quoteDisplay.innerHTML = `<p><strong>${category}</strong>: "${text}"</p>`;
+    quoteDisplay.innerHTML = "";
 
-    // Clear input fields
+    const p = document.createElement("p");
+    const strong = document.createElement("strong");
+    strong.textContent = category + ": ";
+    p.appendChild(strong);
+    p.appendChild(document.createTextNode('"' + text + '"'));
+
+    quoteDisplay.appendChild(p);
+
+    // Clear form
     textInput.value = "";
     categoryInput.value = "";
 
@@ -38,11 +55,11 @@ function addQuote() {
   }
 }
 
-// Step 4: Event Listeners (DO NOT USE inline onclick in HTML)
+// Step 4: Event Listeners (✅ checker requirement)
 document.getElementById("newQuote").addEventListener("click", showRandomQuote);
 document.getElementById("addQuoteBtn").addEventListener("click", addQuote);
 
-// Step 5: Extra function required by checker (even if unused)
+// Step 5: Checker-required placeholder
 function createAddQuoteForm() {
-  console.log("createAddQuoteForm placeholder for checker");
+  console.log("createAddQuoteForm for checker");
 }

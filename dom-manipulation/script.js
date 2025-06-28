@@ -1,11 +1,24 @@
-// Step 1: Quotes Array
-const quotes = [
+let quotes = [
   { text: "Believe you can and you're halfway there.", category: "Motivation" },
   { text: "Be yourself; everyone else is already taken.", category: "Inspiration" },
   { text: "Act as if what you do makes a difference. It does.", category: "Encouragement" }
 ];
 
-// Step 2: Display Random Quote using createElement + appendChild
+// Load quotes from localStorage if available
+function loadQuotes() {
+  const storedQuotes = localStorage.getItem("quotes");
+  if (storedQuotes) {
+    quotes = JSON.parse(storedQuotes);
+  }
+}
+loadQuotes(); // Call immediately
+
+// ✅ Moved outside
+function saveQuotes() {
+  localStorage.setItem("quotes", JSON.stringify(quotes));
+}
+
+// Step 2: Display Random Quote
 function showRandomQuote() {
   const quoteDisplay = document.getElementById("quoteDisplay");
   quoteDisplay.innerHTML = ""; // clear previous quote
@@ -22,7 +35,7 @@ function showRandomQuote() {
   quoteDisplay.appendChild(p);
 }
 
-// Step 3: Add New Quote using createElement + appendChild
+// Step 3: Add New Quote
 function addQuote() {
   const textInput = document.getElementById("newQuoteText");
   const categoryInput = document.getElementById("newQuoteCategory");
@@ -32,8 +45,9 @@ function addQuote() {
 
   if (text && category) {
     quotes.push({ text, category });
+    saveQuotes(); // ✅ save to localStorage
 
-    // Update DOM with newly added quote using createElement
+    // Update DOM with newly added quote
     const quoteDisplay = document.getElementById("quoteDisplay");
     quoteDisplay.innerHTML = "";
 
@@ -55,7 +69,7 @@ function addQuote() {
   }
 }
 
-// Step 4: Event Listeners (✅ checker requirement)
+// Step 4: Event Listeners
 document.getElementById("newQuote").addEventListener("click", showRandomQuote);
 document.getElementById("addQuoteBtn").addEventListener("click", addQuote);
 
